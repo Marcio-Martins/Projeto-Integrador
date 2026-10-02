@@ -1,7 +1,7 @@
-
 import unittest
+from unittest.mock import patch
 
-from urna import registrar_voto
+from urna import registrar_voto, confirmar_voto
 
 
 class TestUrna(unittest.TestCase):
@@ -74,6 +74,58 @@ class TestUrna(unittest.TestCase):
         )
 
         self.assertEqual(votos['15'], 2)
+
+    @patch('builtins.input', return_value='S')
+    def test_confirmar_voto_sim(self, mock_input):
+        candidatos = {
+            '15': 'Carlos Pedro-PD'
+        }
+
+        resultado = confirmar_voto(
+            '15',
+            'Prefeito',
+            candidatos
+        )
+
+        self.assertTrue(resultado)
+
+    @patch('builtins.input', return_value='N')
+    def test_confirmar_voto_nao(self, mock_input):
+        candidatos = {
+            '15': 'Carlos Pedro-PD'
+        }
+
+        resultado = confirmar_voto(
+            '15',
+            'Prefeito',
+            candidatos
+        )
+
+        self.assertFalse(resultado)
+
+    def test_confirmar_voto_branco(self):
+        candidatos = {
+            '1': 'Voto Branco'
+        }
+
+        resultado = confirmar_voto(
+            '1',
+            'Prefeito',
+            candidatos
+        )
+
+        self.assertTrue(resultado)
+
+    def test_confirmar_voto_nulo(self):
+        candidatos = {}
+
+        resultado = confirmar_voto(
+            'Nulo',
+            'Prefeito',
+            candidatos
+        )
+
+        self.assertTrue(resultado)
 
 
 if __name__ == '__main__':
