@@ -1,19 +1,19 @@
-
 def solicitar_voto(tipo, candidatos):
     while True:
         voto = input(
             f'Digite o número do candidato a {tipo} '
             '(ou "1" para votar em Branco): '
-        )
+        ).strip()
 
-        if voto.isdigit():
-            if voto in candidatos:
-                return voto
+        if not voto.isdigit():
+            print('Entrada inválida! Digite apenas números.')
+            continue
 
-            print(f'Voto nulo registrado para {tipo}.')
-            return 'Nulo'
+        if voto in candidatos:
+            return voto
 
-        print('Entrada inválida! Digite apenas números.')
+        print(f'Voto nulo registrado para {tipo}.')
+        return 'Nulo'
 
 
 def confirmar_voto(voto, tipo, candidatos):
