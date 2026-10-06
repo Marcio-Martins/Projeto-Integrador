@@ -1,10 +1,23 @@
 import unittest
 from unittest.mock import patch
 
-from urna import registrar_voto, confirmar_voto
+from urna import registrar_voto, confirmar_voto, solicitar_voto
 
 
 class TestUrna(unittest.TestCase):
+
+    def test_solicitar_voto_valido(self):
+        candidatos = {
+            '15': 'Carlos Pedro-PD'
+        }
+
+        with patch('builtins.input', return_value='15'):
+            resultado = solicitar_voto(
+                'Prefeito',
+                candidatos
+            )
+
+        self.assertEqual(resultado, '15')
 
     def test_registrar_voto_valido(self):
         votos = {}
