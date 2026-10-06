@@ -40,3 +40,49 @@ Projeto-Integrador/
 │   └── test_urna.py
 │
 └── README.md
+```
+
+## ▶️ Como executar
+
+É necessário ter o Python instalado.
+
+No terminal, dentro da pasta do projeto, execute:
+
+```bash
+python urna.py
+```
+
+## 🧪 Executando os testes
+
+Para executar os testes automatizados:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+### Resultado dos testes
+
+O projeto possui atualmente **8 testes automatizados**, abrangendo:
+
+- Registro de voto válido
+- Registro de voto branco
+- Registro de voto nulo
+- Contagem de votos
+- Confirmação de voto
+- Recusa de confirmação de voto
+- Confirmação de voto branco
+- Confirmação de voto nulo
+
+Todos os 8 testes foram executados com sucesso.
+
+## 📚 Objetivo do projeto
+
+O objetivo deste projeto é praticar conceitos fundamentais de programação
+em Python, incluindo funções, estruturas de repetição, estruturas
+condicionais, dicionários, validação de dados e testes automatizados.
+
+## 👨‍💻 Autor
+
+**Márcio Eufrazio**
+
+Tecnólogo em Análise e Desenvolvimento de Sistemas.
