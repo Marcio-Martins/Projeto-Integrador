@@ -1,7 +1,15 @@
 import unittest
+
 from unittest.mock import patch
 
-from urna import registrar_voto, confirmar_voto, solicitar_voto
+from urna import (
+    registrar_voto,
+    confirmar_voto,
+    solicitar_voto,
+    votar_eleitor,
+    controle_mesario,
+    iniciar_votacao
+)
 
 
 class TestUrna(unittest.TestCase):
@@ -152,6 +160,70 @@ class TestUrna(unittest.TestCase):
         )
 
         self.assertTrue(resultado)
+
+    @patch(
+        'builtins.input',
+        side_effect=[
+            '15',
+            'S',
+            '15112',
+            'S'
+        ]
+    )
+    def test_votar_eleitor(self, mock_input):
+        candidatos_prefeito = {
+            '15': 'Carlos Pedro-PD'
+        }
+
+        candidatos_vereador = {
+            '15112': 'Adriana Bela-PD'
+        }
+
+        votos_prefeito = {}
+        votos_vereador = {}
+
+        resultado = votar_eleitor(
+            candidatos_prefeito,
+            candidatos_vereador,
+            votos_prefeito,
+            votos_vereador,
+            0,
+            0,
+            0,
+            0
+        )
+
+        self.assertEqual(votos_prefeito['15'], 1)
+        self.assertEqual(votos_vereador['15112'], 1)
+
+        self.assertEqual(resultado[0], 0)
+        self.assertEqual(resultado[1], 0)
+        self.assertEqual(resultado[2], 0)
+        self.assertEqual(resultado[3], 0)
+
+    @patch('builtins.input', return_value='1')
+    def test_controle_mesario_continuar(self, mock_input):
+        resultado = controle_mesario()
+
+        self.assertTrue(resultado)
+
+    @patch('builtins.input', return_value='2')
+    def test_controle_mesario_encerrar(self, mock_input):
+        resultado = controle_mesario()
+
+        self.assertFalse(resultado)
+
+    @patch('builtins.input', return_value='1')
+    def test_iniciar_votacao(self, mock_input):
+        resultado = iniciar_votacao()
+
+        self.assertTrue(resultado)
+
+    @patch('builtins.input', return_value='2')
+    def test_encerrar_sistema_antes_da_votacao(self, mock_input):
+        resultado = iniciar_votacao()
+
+        self.assertFalse(resultado)
 
 
 if __name__ == '__main__':

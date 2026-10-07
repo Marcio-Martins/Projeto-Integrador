@@ -22,7 +22,7 @@ def confirmar_voto(voto, tipo, candidatos):
 
     while True:
         print(f'Você votou em: {candidatos[voto]} para {tipo}.')
-        confirmacao = input('Confirma voto? [S/N]: ').upper()
+        confirmacao = input('Confirma voto? [S/N]: ').strip().upper()
 
         if confirmacao == 'S':
             return True
@@ -69,9 +69,88 @@ def votar_cargo(tipo, candidatos, votos, brancos, nulos):
                 brancos,
                 nulos
             )
+
             return brancos, nulos
 
         print('Voto não confirmado. Digite novamente.\n')
+
+
+def votar_eleitor(
+    candidatos_prefeito,
+    candidatos_vereador,
+    votos_prefeito,
+    votos_vereador,
+    brancos_prefeito,
+    nulos_prefeito,
+    brancos_vereador,
+    nulos_vereador
+):
+    print('\n===== NOVO ELEITOR =====')
+
+    (
+        brancos_prefeito,
+        nulos_prefeito
+    ) = votar_cargo(
+        'Prefeito',
+        candidatos_prefeito,
+        votos_prefeito,
+        brancos_prefeito,
+        nulos_prefeito
+    )
+
+    (
+        brancos_vereador,
+        nulos_vereador
+    ) = votar_cargo(
+        'Vereador',
+        candidatos_vereador,
+        votos_vereador,
+        brancos_vereador,
+        nulos_vereador
+    )
+
+    print('\nVotos registrados com sucesso!')
+
+    return (
+        brancos_prefeito,
+        nulos_prefeito,
+        brancos_vereador,
+        nulos_vereador
+    )
+
+
+def iniciar_votacao():
+    while True:
+        print('\n===== CONTROLE DO MESÁRIO =====')
+        print('1 - Iniciar votação')
+        print('2 - Encerrar sistema')
+
+        opcao = input('Escolha uma opção: ').strip()
+
+        if opcao == '1':
+            return True
+
+        if opcao == '2':
+            return False
+
+        print('Opção inválida! Digite 1 ou 2.')
+
+
+def controle_mesario():
+    while True:
+        print('\n===== CONTROLE DO MESÁRIO =====')
+        print('1 - Liberar próximo eleitor')
+        print('2 - Encerrar votação')
+
+        opcao = input('Escolha uma opção: ').strip()
+
+        if opcao == '1':
+            return True
+
+        if opcao == '2':
+            return False
+
+        print('Opção inválida! Digite 1 ou 2.')
 
 
 def main():
@@ -101,63 +180,66 @@ def main():
 
     brancos_prefeito = 0
     nulos_prefeito = 0
+
     brancos_vereador = 0
     nulos_vereador = 0
 
-    print('===== INÍCIO DA VOTAÇÃO =====')
+    print('\n======================================')
+    print('       URNA ELETRÔNICA - SIMULAÇÃO')
+    print('======================================')
+
+    votacao_iniciada = iniciar_votacao()
+
+    if not votacao_iniciada:
+        print('\nSistema encerrado pelo mesário.')
+        return
+
+    print('\n======================================')
+    print('          VOTAÇÃO INICIADA')
+    print('======================================')
 
     while True:
+
         (
             brancos_prefeito,
-            nulos_prefeito
-        ) = votar_cargo(
-            'Prefeito',
+            nulos_prefeito,
+            brancos_vereador,
+            nulos_vereador
+        ) = votar_eleitor(
             candidatos_prefeito,
-            votos_prefeito,
-            brancos_prefeito,
-            nulos_prefeito
-        )
-
-        (
-            brancos_vereador,
-            nulos_vereador
-        ) = votar_cargo(
-            'Vereador',
             candidatos_vereador,
+            votos_prefeito,
             votos_vereador,
+            brancos_prefeito,
+            nulos_prefeito,
             brancos_vereador,
             nulos_vereador
         )
 
-        while True:
-            encerramento = input(
-                'Deseja encerrar a votação? [S/N]: '
-            ).upper()
+        continuar = controle_mesario()
 
-            if encerramento == 'S':
-                exibir_resultado(
-                    votos_prefeito,
-                    candidatos_prefeito,
-                    'Prefeito',
-                    brancos_prefeito,
-                    nulos_prefeito
-                )
+        if not continuar:
+            break
 
-                exibir_resultado(
-                    votos_vereador,
-                    candidatos_vereador,
-                    'Vereador',
-                    brancos_vereador,
-                    nulos_vereador
-                )
+    print('\n======================================')
+    print('          VOTAÇÃO ENCERRADA')
+    print('======================================')
 
-                print('\n===== VOTAÇÃO ENCERRADA =====')
-                return
+    exibir_resultado(
+        votos_prefeito,
+        candidatos_prefeito,
+        'Prefeito',
+        brancos_prefeito,
+        nulos_prefeito
+    )
 
-            if encerramento == 'N':
-                break
-
-            print('Resposta inválida! Digite S ou N.')
+    exibir_resultado(
+        votos_vereador,
+        candidatos_vereador,
+        'Vereador',
+        brancos_vereador,
+        nulos_vereador
+    )
 
 
 if __name__ == '__main__':
