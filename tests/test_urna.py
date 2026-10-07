@@ -19,6 +19,19 @@ class TestUrna(unittest.TestCase):
 
         self.assertEqual(resultado, '15')
 
+    @patch('builtins.input', side_effect=['abc', '15'])
+    def test_solicitar_voto_entrada_invalida(self, mock_input):
+        candidatos = {
+            '15': 'Carlos Pedro-PD'
+        }
+
+        resultado = solicitar_voto(
+            'Prefeito',
+            candidatos
+        )
+
+        self.assertEqual(resultado, '15')
+
     def test_registrar_voto_valido(self):
         votos = {}
         brancos = 0
