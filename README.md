@@ -62,7 +62,7 @@ python -m unittest discover -s tests -v
 
 ### Resultado dos testes
 
-O projeto possui atualmente **8 testes automatizados**, abrangendo:
+O projeto possui atualmente **10 testes automatizados**, abrangendo:
 
 - Registro de voto válido
 - Registro de voto branco
@@ -72,8 +72,10 @@ O projeto possui atualmente **8 testes automatizados**, abrangendo:
 - Recusa de confirmação de voto
 - Confirmação de voto branco
 - Confirmação de voto nulo
+- Solicitação de voto válido
+- Validação de entrada não numérica
 
-Todos os 8 testes foram executados com sucesso.
+Todos os 10 testes foram executados com sucesso.
 
 ## 📚 Objetivo do projeto
 
