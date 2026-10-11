@@ -1,171 +1,156 @@
-# 🗳️ Projeto Integrador - Simulação de Urna Eletrônica
 
-Projeto desenvolvido em Python como parte dos estudos de programação.
+# 🗳️ Simulação de Urna Eletrônica em Python
 
-A aplicação simula uma votação para os cargos de **Prefeito e Vereador**, permitindo registrar votos válidos, votos brancos e votos nulos.
+Projeto desenvolvido em Python para praticar lógica de programação, organização de funções, validação de entradas e testes automatizados.
 
-O projeto também possui um fluxo de controle do mesário para iniciar, continuar ou encerrar a votação, além da apuração dos resultados ao final.
+A aplicação simula uma votação para os cargos de **Prefeito e Vereador**, com registro de votos válidos, brancos e nulos, confirmação das escolhas e apuração dos resultados.
 
-> **Observação:** este projeto é uma simulação acadêmica desenvolvida para fins de estudo e não representa um sistema eleitoral real.
+> **Aviso:** este é um projeto acadêmico para fins educacionais. Não é um sistema eleitoral oficial e não deve ser utilizado em eleições reais.
 
 ## 🚀 Funcionalidades
 
-* Início da votação pelo mesário
-* Encerramento do sistema antes do início da votação
-* Liberação do próximo eleitor pelo mesário
-* Encerramento da votação pelo mesário
-* Registro de votos para Prefeito
-* Registro de votos para Vereador
-* Confirmação do voto
-* Possibilidade de refazer o voto
-* Registro de votos brancos
-* Registro de votos nulos
-* Contagem dos votos
-* Apuração dos resultados ao final da votação
-* Exibição da quantidade de votos por candidato
-* Validação das entradas do usuário
-* Testes automatizados com `unittest`
+- Iniciar a votação por meio do controle do mesário
+- Encerrar o sistema antes do início da votação
+- Liberar o próximo eleitor
+- Encerrar a votação e apresentar a apuração
+- Registrar votos para Prefeito e Vereador
+- Confirmar ou refazer uma escolha
+- Registrar votos brancos e nulos
+- Contabilizar votos por candidato
+- Validar entradas e tratar opções inválidas
+- Executar testes automatizados com `unittest`
 
-## 🛠️ Tecnologias e conceitos utilizados
+## 🛠️ Tecnologias e conceitos
 
-* Python
-* Programação procedural
-* Estruturas condicionais
-* Estruturas de repetição
-* Funções
-* Dicionários
-* Validação de entradas
-* Tratamento de entradas inválidas
-* Testes automatizados com `unittest`
+- **Python 3**
+- Programação procedural
+- Funções e parâmetros
+- Estruturas condicionais e de repetição
+- Dicionários para contabilização de votos
+- Validação de entradas do usuário
+- Testes automatizados com `unittest`
+- Simulação de um fluxo de controle de votação
 
 ## 📁 Estrutura do projeto
 
 ```text
 Projeto-Integrador/
-│
 ├── urna.py
-│
 ├── tests/
 │   └── test_urna.py
-│
 └── README.md
 ```
 
+## ⚙️ Pré-requisitos
+
+- Python 3 instalado
+- Terminal ou editor de código, como o Visual Studio Code
+
+Para verificar se o Python está instalado, execute:
+
+```bash
+python --version
+```
+
+No Windows, também é possível utilizar:
+
+```bash
+py --version
+```
+
+O projeto utiliza módulos da biblioteca padrão do Python, incluindo `unittest`, sem necessidade de instalar dependências externas para executar os testes apresentados.
+
 ## ▶️ Como executar
 
-É necessário ter o Python instalado.
-
-No terminal, dentro da pasta do projeto, execute:
+1. Abra o terminal na pasta do projeto.
+2. Execute o comando:
 
 ```bash
 python urna.py
 ```
 
-Ao iniciar o sistema, o mesário poderá escolher:
+No início, o mesário poderá escolher:
 
 ```text
 1 - Iniciar votação
 2 - Encerrar sistema
 ```
 
-Após o início da votação, cada eleitor realiza seus votos para Prefeito e Vereador.
-
-Depois de cada eleitor, o mesário poderá escolher:
+Depois de cada eleitor votar para Prefeito e Vereador, o mesário poderá escolher:
 
 ```text
 1 - Liberar próximo eleitor
 2 - Encerrar votação
 ```
 
-Ao encerrar a votação, o sistema apresenta a apuração dos votos.
+Ao encerrar a votação, o programa apresenta a quantidade de votos por candidato, além dos votos brancos e nulos.
 
-## 🧪 Executando os testes
+## 🧪 Testes automatizados
 
-Para executar os testes automatizados:
+Para executar os testes, utilize:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-### Resultado dos testes
+Os testes verificam comportamentos como:
 
-O projeto possui atualmente **15 testes automatizados**, abrangendo:
+- Solicitação de voto válido
+- Tratamento de entrada não numérica
+- Registro e contagem de votos
+- Registro de votos brancos e nulos
+- Confirmação e recusa de votos
+- Processo de votação de um eleitor
+- Controle do mesário
+- Início e encerramento do sistema
+- Tratamento de opções inválidas
 
-* Solicitação de voto válido
-* Validação de entrada não numérica
-* Registro de voto válido
-* Registro de voto branco
-* Registro de voto nulo
-* Contagem de votos
-* Confirmação de voto
-* Recusa de confirmação de voto
-* Confirmação de voto branco
-* Confirmação de voto nulo
-* Processo completo de votação de um eleitor
-* Controle do mesário para liberar o próximo eleitor
-* Controle do mesário para encerrar a votação
-* Início da votação
-* Encerramento do sistema antes do início da votação
+### Resultado atual
 
-Todos os **15 testes automatizados** foram executados com sucesso.
+**18 testes automatizados aprovados**, conforme a última execução realizada.
 
-## 🎯 Fluxo da aplicação
+Para conferir o resultado novamente, execute o comando de testes acima. Se o código for alterado, rode os testes antes de publicar as mudanças.
+
+## 🔄 Fluxo da aplicação
 
 ```text
-Votação não iniciada
-        │
-        ▼
-Controle do mesário
-   ┌────┴────┐
-   │         │
-   1         2
-   │         │
-   ▼         ▼
-Iniciar    Encerrar
-votação    sistema
-   │
-   ▼
-Novo eleitor
-   │
-   ├──► Voto para Prefeito
-   │
-   └──► Voto para Vereador
-   │
-   ▼
-Votos registrados
-   │
-   ▼
-Controle do mesário
-   ┌────┴────┐
-   │         │
-   1         2
-   │         │
-   ▼         ▼
-Próximo    Encerrar
-eleitor    votação
-             │
-             ▼
-          Apuração
-          dos votos
+Sistema aguardando início
+          |
+          v
+     Controle do mesário
+       /           \
+ Iniciar          Encerrar
+ votação          sistema
+    |
+    v
+ Eleitor vota para Prefeito
+    |
+    v
+ Eleitor vota para Vereador
+    |
+    v
+ Controle do mesário
+    /           \
+ Próximo       Encerrar
+ eleitor       votação
+                  |
+                  v
+             Apuração final
 ```
 
-## 📚 Objetivo do projeto
+## 🎯 Objetivo de aprendizagem
 
-O objetivo deste projeto é praticar conceitos fundamentais de programação em Python, incluindo:
+Este projeto foi desenvolvido para aplicar conceitos fundamentais de programação em uma situação prática, com foco em:
 
-* criação e utilização de funções;
-* estruturas condicionais;
-* estruturas de repetição;
-* utilização de dicionários;
-* validação de dados;
-* organização de código;
-* testes automatizados;
-* simulação de um fluxo de aplicação.
-
-O projeto também busca aplicar conceitos de programação em uma situação prática, utilizando um sistema de votação como exemplo.
+- Decomposição do programa em funções
+- Manipulação de dicionários
+- Validação de dados
+- Controle de fluxo
+- Separação entre lógica e interação com o usuário
+- Verificação do comportamento por meio de testes automatizados
 
 ## 👨‍💻 Autor
 
 **Márcio Eufrazio**
 
-Tecnólogo em Análise e Desenvolvimento de Sistemas
+Tecnólogo em Análise e Desenvolvimento de Sistemas.
