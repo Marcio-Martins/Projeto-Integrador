@@ -2,6 +2,7 @@
 import unittest
 from unittest.mock import patch
 
+from urna import exibir_resultado
 from urna import (
     registrar_voto,
     confirmar_voto,
@@ -204,6 +205,50 @@ class TestUrna(unittest.TestCase):
 
         self.assertTrue(resultado)
         self.assertEqual(mock_input.call_count, 2)
+
+
+
+    def test_exibir_resultado_varios_candidatos_prefeito(self):
+        votos = {"15": 3, "21": 1}
+        candidatos = {
+            "15": "Carlos Pedro-PD",
+            "21": "Anderson Silva-PV",
+            "35": "Marta Rocha-PL",
+            "1": "Voto Branco",
+        }
+
+        with patch("builtins.print") as imprimir:
+            exibir_resultado(votos, candidatos, "Prefeito", 2, 1)
+
+        chamadas = [str(chamada) for chamada in imprimir.call_args_list]
+        texto = "\\n".join(chamadas)
+        self.assertIn("15 - Carlos Pedro-PD: 3 voto(s)", texto)
+        self.assertIn("21 - Anderson Silva-PV: 1 voto(s)", texto)
+        self.assertIn("35 - Marta Rocha-PL: 0 voto(s)", texto)
+        self.assertIn("Votos brancos: 2", texto)
+        self.assertIn("Votos nulos: 1", texto)
+        self.assertNotIn("1 - Voto Branco", texto)
+
+    def test_exibir_resultado_varios_candidatos_vereador(self):
+        votos = {"15112": 4, "15121": 2, "15221": 1}
+        candidatos = {
+            "15112": "Adriana Bela-PD",
+            "15121": "Carlos Alberto-PD",
+            "15221": "Sandro Pereira-PD",
+            "1": "Voto Branco",
+        }
+
+        with patch("builtins.print") as imprimir:
+            exibir_resultado(votos, candidatos, "Vereador", 3, 2)
+
+        chamadas = [str(chamada) for chamada in imprimir.call_args_list]
+        texto = "\\n".join(chamadas)
+        self.assertIn("15112 - Adriana Bela-PD: 4 voto(s)", texto)
+        self.assertIn("15121 - Carlos Alberto-PD: 2 voto(s)", texto)
+        self.assertIn("15221 - Sandro Pereira-PD: 1 voto(s)", texto)
+        self.assertIn("Votos brancos: 3", texto)
+        self.assertIn("Votos nulos: 2", texto)
+        self.assertNotIn("1 - Voto Branco", texto)
 
 
 if __name__ == '__main__':
