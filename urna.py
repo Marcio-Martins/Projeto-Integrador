@@ -1,3 +1,4 @@
+
 def solicitar_voto(tipo, candidatos):
     while True:
         voto = input(
@@ -19,6 +20,10 @@ def solicitar_voto(tipo, candidatos):
 def confirmar_voto(voto, tipo, candidatos):
     if voto == 'Nulo' or voto == '1':
         return True
+
+    if voto not in candidatos:
+        print('Voto inválido! Selecione um candidato válido.')
+        return False
 
     while True:
         print(f'Você votou em: {candidatos[voto]} para {tipo}.')
@@ -199,7 +204,6 @@ def main():
     print('======================================')
 
     while True:
-
         (
             brancos_prefeito,
             nulos_prefeito,
