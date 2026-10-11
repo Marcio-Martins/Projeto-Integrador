@@ -1,5 +1,5 @@
-import unittest
 
+import unittest
 from unittest.mock import patch
 
 from urna import (
@@ -39,6 +39,7 @@ class TestUrna(unittest.TestCase):
         )
 
         self.assertEqual(resultado, '15')
+        self.assertEqual(mock_input.call_count, 2)
 
     def test_registrar_voto_valido(self):
         votos = {}
@@ -224,6 +225,35 @@ class TestUrna(unittest.TestCase):
         resultado = iniciar_votacao()
 
         self.assertFalse(resultado)
+
+    @patch('builtins.input', side_effect=['x', 'S'])
+    def test_confirmar_voto_resposta_invalida(self, mock_input):
+        candidatos = {
+            '15': 'Carlos Pedro-PD'
+        }
+
+        resultado = confirmar_voto(
+            '15',
+            'Prefeito',
+            candidatos
+        )
+
+        self.assertTrue(resultado)
+        self.assertEqual(mock_input.call_count, 2)
+
+    @patch('builtins.input', side_effect=['0', '1'])
+    def test_iniciar_votacao_opcao_invalida(self, mock_input):
+        resultado = iniciar_votacao()
+
+        self.assertTrue(resultado)
+        self.assertEqual(mock_input.call_count, 2)
+
+    @patch('builtins.input', side_effect=['0', '1'])
+    def test_controle_mesario_opcao_invalida(self, mock_input):
+        resultado = controle_mesario()
+
+        self.assertTrue(resultado)
+        self.assertEqual(mock_input.call_count, 2)
 
 
 if __name__ == '__main__':
