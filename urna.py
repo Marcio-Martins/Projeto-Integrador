@@ -27,7 +27,9 @@ def confirmar_voto(voto, tipo, candidatos):
 
     while True:
         print(f'Você votou em: {candidatos[voto]} para {tipo}.')
-        confirmacao = input('Confirma voto? [S/N]: ').strip().upper()
+        confirmacao = input(
+            'Confirma voto? [S/N]: '
+        ).strip().upper()
 
         if confirmacao == 'S':
             return True
@@ -38,15 +40,32 @@ def confirmar_voto(voto, tipo, candidatos):
         print('Resposta inválida! Digite S ou N.')
 
 
-def registrar_voto(voto, votos, contagem_branco, contagem_nulo):
-    if voto == '1':
-        contagem_branco += 1
-
-    elif voto == 'Nulo':
+def registrar_voto(
+    voto,
+    votos,
+    contagem_branco,
+    contagem_nulo,
+    candidatos
+):
+    if voto == 'Nulo':
         contagem_nulo += 1
 
-    else:
+    elif voto == '1':
+        if '1' not in candidatos:
+            raise ValueError(
+                'Voto branco não permitido para este cargo.'
+            )
+
+        contagem_branco += 1
+
+    elif voto in candidatos:
         votos[voto] = votos.get(voto, 0) + 1
+
+    else:
+        raise ValueError(
+            f'Voto inválido: {voto!r}. '
+            'O número não pertence à lista de candidatos.'
+        )
 
     return contagem_branco, contagem_nulo
 
@@ -72,7 +91,8 @@ def votar_cargo(tipo, candidatos, votos, brancos, nulos):
                 voto,
                 votos,
                 brancos,
-                nulos
+                nulos,
+                candidatos
             )
 
             return brancos, nulos
@@ -193,9 +213,7 @@ def main():
     print('       URNA ELETRÔNICA - SIMULAÇÃO')
     print('======================================')
 
-    votacao_iniciada = iniciar_votacao()
-
-    if not votacao_iniciada:
+    if not iniciar_votacao():
         print('\nSistema encerrado pelo mesário.')
         return
 
@@ -220,9 +238,7 @@ def main():
             nulos_vereador
         )
 
-        continuar = controle_mesario()
-
-        if not continuar:
+        if not controle_mesario():
             break
 
     print('\n======================================')

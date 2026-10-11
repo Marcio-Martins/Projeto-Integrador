@@ -15,42 +15,28 @@ from urna import (
 class TestUrna(unittest.TestCase):
 
     def test_solicitar_voto_valido(self):
-        candidatos = {
-            '15': 'Carlos Pedro-PD'
-        }
+        candidatos = {'15': 'Carlos Pedro-PD'}
 
         with patch('builtins.input', return_value='15'):
-            resultado = solicitar_voto(
-                'Prefeito',
-                candidatos
-            )
+            resultado = solicitar_voto('Prefeito', candidatos)
 
         self.assertEqual(resultado, '15')
 
     @patch('builtins.input', side_effect=['abc', '15'])
     def test_solicitar_voto_entrada_invalida(self, mock_input):
-        candidatos = {
-            '15': 'Carlos Pedro-PD'
-        }
+        candidatos = {'15': 'Carlos Pedro-PD'}
 
-        resultado = solicitar_voto(
-            'Prefeito',
-            candidatos
-        )
+        resultado = solicitar_voto('Prefeito', candidatos)
 
         self.assertEqual(resultado, '15')
         self.assertEqual(mock_input.call_count, 2)
 
     def test_registrar_voto_valido(self):
         votos = {}
-        brancos = 0
-        nulos = 0
+        candidatos = {'15': 'Carlos Pedro-PD'}
 
         brancos, nulos = registrar_voto(
-            '15',
-            votos,
-            brancos,
-            nulos
+            '15', votos, 0, 0, candidatos
         )
 
         self.assertEqual(votos['15'], 1)
@@ -59,14 +45,10 @@ class TestUrna(unittest.TestCase):
 
     def test_registrar_voto_branco(self):
         votos = {}
-        brancos = 0
-        nulos = 0
+        candidatos = {'15': 'Carlos Pedro-PD', '1': 'Voto Branco'}
 
         brancos, nulos = registrar_voto(
-            '1',
-            votos,
-            brancos,
-            nulos
+            '1', votos, 0, 0, candidatos
         )
 
         self.assertEqual(brancos, 1)
@@ -75,110 +57,70 @@ class TestUrna(unittest.TestCase):
 
     def test_registrar_voto_nulo(self):
         votos = {}
-        brancos = 0
-        nulos = 0
 
         brancos, nulos = registrar_voto(
-            'Nulo',
-            votos,
-            brancos,
-            nulos
+            'Nulo', votos, 0, 0, {}
         )
 
         self.assertEqual(brancos, 0)
         self.assertEqual(nulos, 1)
         self.assertEqual(votos, {})
 
+    def test_registrar_voto_candidato_inexistente(self):
+        votos = {}
+        candidatos = {'15': 'Carlos Pedro-PD'}
+
+        with self.assertRaises(ValueError):
+            registrar_voto(
+                '999', votos, 0, 0, candidatos
+            )
+
+        self.assertEqual(votos, {})
+
     def test_contagem_de_votos(self):
         votos = {}
-        brancos = 0
-        nulos = 0
+        candidatos = {'15': 'Carlos Pedro-PD'}
 
-        brancos, nulos = registrar_voto(
-            '15',
-            votos,
-            brancos,
-            nulos
-        )
-
-        brancos, nulos = registrar_voto(
-            '15',
-            votos,
-            brancos,
-            nulos
-        )
+        registrar_voto('15', votos, 0, 0, candidatos)
+        registrar_voto('15', votos, 0, 0, candidatos)
 
         self.assertEqual(votos['15'], 2)
 
     @patch('builtins.input', return_value='S')
     def test_confirmar_voto_sim(self, mock_input):
-        candidatos = {
-            '15': 'Carlos Pedro-PD'
-        }
-
         resultado = confirmar_voto(
-            '15',
-            'Prefeito',
-            candidatos
+            '15', 'Prefeito', {'15': 'Carlos Pedro-PD'}
         )
 
         self.assertTrue(resultado)
 
     @patch('builtins.input', return_value='N')
     def test_confirmar_voto_nao(self, mock_input):
-        candidatos = {
-            '15': 'Carlos Pedro-PD'
-        }
-
         resultado = confirmar_voto(
-            '15',
-            'Prefeito',
-            candidatos
+            '15', 'Prefeito', {'15': 'Carlos Pedro-PD'}
         )
 
         self.assertFalse(resultado)
 
     def test_confirmar_voto_branco(self):
-        candidatos = {
-            '1': 'Voto Branco'
-        }
-
         resultado = confirmar_voto(
-            '1',
-            'Prefeito',
-            candidatos
+            '1', 'Prefeito', {'1': 'Voto Branco'}
         )
 
         self.assertTrue(resultado)
 
     def test_confirmar_voto_nulo(self):
-        candidatos = {}
-
-        resultado = confirmar_voto(
-            'Nulo',
-            'Prefeito',
-            candidatos
-        )
+        resultado = confirmar_voto('Nulo', 'Prefeito', {})
 
         self.assertTrue(resultado)
 
     @patch(
         'builtins.input',
-        side_effect=[
-            '15',
-            'S',
-            '15112',
-            'S'
-        ]
+        side_effect=['15', 'S', '15112', 'S']
     )
     def test_votar_eleitor(self, mock_input):
-        candidatos_prefeito = {
-            '15': 'Carlos Pedro-PD'
-        }
-
-        candidatos_vereador = {
-            '15112': 'Adriana Bela-PD'
-        }
+        candidatos_prefeito = {'15': 'Carlos Pedro-PD'}
+        candidatos_vereador = {'15112': 'Adriana Bela-PD'}
 
         votos_prefeito = {}
         votos_vereador = {}
@@ -188,54 +130,62 @@ class TestUrna(unittest.TestCase):
             candidatos_vereador,
             votos_prefeito,
             votos_vereador,
-            0,
-            0,
-            0,
-            0
+            0, 0, 0, 0
         )
 
         self.assertEqual(votos_prefeito['15'], 1)
         self.assertEqual(votos_vereador['15112'], 1)
+        self.assertEqual(resultado, (0, 0, 0, 0))
 
-        self.assertEqual(resultado[0], 0)
-        self.assertEqual(resultado[1], 0)
-        self.assertEqual(resultado[2], 0)
-        self.assertEqual(resultado[3], 0)
+    @patch(
+        'builtins.input',
+        side_effect=['15', 'N', '21', 'S', '15112', 'S']
+    )
+    def test_voto_rejeitado_nao_e_contabilizado(self, mock_input):
+        candidatos_prefeito = {
+            '15': 'Carlos Pedro-PD',
+            '21': 'Anderson Silva-PV'
+        }
+        candidatos_vereador = {'15112': 'Adriana Bela-PD'}
+
+        votos_prefeito = {}
+        votos_vereador = {}
+
+        votar_eleitor(
+            candidatos_prefeito,
+            candidatos_vereador,
+            votos_prefeito,
+            votos_vereador,
+            0, 0, 0, 0
+        )
+
+        self.assertNotIn('15', votos_prefeito)
+        self.assertEqual(votos_prefeito.get('21'), 1)
+        self.assertEqual(votos_vereador.get('15112'), 1)
+        self.assertEqual(mock_input.call_count, 6)
 
     @patch('builtins.input', return_value='1')
     def test_controle_mesario_continuar(self, mock_input):
-        resultado = controle_mesario()
-
-        self.assertTrue(resultado)
+        self.assertTrue(controle_mesario())
 
     @patch('builtins.input', return_value='2')
     def test_controle_mesario_encerrar(self, mock_input):
-        resultado = controle_mesario()
-
-        self.assertFalse(resultado)
+        self.assertFalse(controle_mesario())
 
     @patch('builtins.input', return_value='1')
     def test_iniciar_votacao(self, mock_input):
-        resultado = iniciar_votacao()
-
-        self.assertTrue(resultado)
+        self.assertTrue(iniciar_votacao())
 
     @patch('builtins.input', return_value='2')
     def test_encerrar_sistema_antes_da_votacao(self, mock_input):
-        resultado = iniciar_votacao()
-
-        self.assertFalse(resultado)
+        self.assertFalse(iniciar_votacao())
 
     @patch('builtins.input', side_effect=['x', 'S'])
     def test_confirmar_voto_resposta_invalida(self, mock_input):
-        candidatos = {
-            '15': 'Carlos Pedro-PD'
-        }
+        candidatos = {'15': 'Carlos Pedro-PD'}
 
         resultado = confirmar_voto(
-            '15',
-            'Prefeito',
-            candidatos
+            '15', 'Prefeito', candidatos
         )
 
         self.assertTrue(resultado)
