@@ -1,5 +1,6 @@
 
 def solicitar_voto(tipo, candidatos):
+    """ Solicita e valida a entrada do eleitor para um cargo. """
     while True:
         voto = input(
             f'Digite o número do candidato a {tipo} '
@@ -18,6 +19,7 @@ def solicitar_voto(tipo, candidatos):
 
 
 def confirmar_voto(voto, tipo, candidatos):
+    """ Confirma a escolha do eleitor antes de registrar o voto. """
     if voto == 'Nulo' or voto == '1':
         return True
 
@@ -47,6 +49,7 @@ def registrar_voto(
     contagem_nulo,
     candidatos
 ):
+    """ Registra um voto e atualiza os contadores de brancos e nulos. """
     if voto == 'Nulo':
         contagem_nulo += 1
 
@@ -71,6 +74,7 @@ def registrar_voto(
 
 
 def exibir_resultado(votos, candidatos, tipo, brancos, nulos):
+    """ Exibe a apuração dos votos de um cargo. """
     print(f'\n===== RESULTADO PARA {tipo.upper()} =====')
 
     for numero, nome in candidatos.items():
@@ -83,6 +87,7 @@ def exibir_resultado(votos, candidatos, tipo, brancos, nulos):
 
 
 def votar_cargo(tipo, candidatos, votos, brancos, nulos):
+    """ Conduz a solicitação, confirmação e registro do voto de um cargo. """
     while True:
         voto = solicitar_voto(tipo, candidatos)
 
@@ -110,6 +115,7 @@ def votar_eleitor(
     brancos_vereador,
     nulos_vereador
 ):
+    """ Conduz a votação de um eleitor para Prefeito e Vereador. """
     print('\n===== NOVO ELEITOR =====')
 
     (
@@ -145,6 +151,7 @@ def votar_eleitor(
 
 
 def iniciar_votacao():
+    """ Permite ao mesário iniciar a votação ou encerrar o sistema. """
     while True:
         print('\n===== CONTROLE DO MESÁRIO =====')
         print('1 - Iniciar votação')
@@ -162,6 +169,7 @@ def iniciar_votacao():
 
 
 def controle_mesario():
+    """ Permite liberar o próximo eleitor ou encerrar a votação. """
     while True:
         print('\n===== CONTROLE DO MESÁRIO =====')
         print('1 - Liberar próximo eleitor')
@@ -179,6 +187,7 @@ def controle_mesario():
 
 
 def main():
+    """ Configura os candidatos e executa o fluxo principal da urna. """
     candidatos_prefeito = {
         '15': 'Carlos Pedro-PD',
         '21': 'Anderson Silva-PV',
