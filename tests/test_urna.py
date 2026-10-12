@@ -251,5 +251,19 @@ class TestUrna(unittest.TestCase):
         self.assertNotIn("1 - Voto Branco", texto)
 
 
-if __name__ == '__main__':
-    unittest.main()
+
+    def test_confirmar_voto_branco_permitido(self):
+        candidatos = {'15': 'Carlos Pedro', '1': 'Voto Branco'}
+
+        self.assertTrue(confirmar_voto('1', 'Prefeito', candidatos))
+
+    def test_confirmar_voto_branco_nao_permitido(self):
+        candidatos = {'15': 'Carlos Pedro'}
+
+        with patch('builtins.print'):
+            self.assertFalse(
+                confirmar_voto('1', 'Prefeito', candidatos)
+            )
+
+    if __name__ == '__main__':
+        unittest.main()
