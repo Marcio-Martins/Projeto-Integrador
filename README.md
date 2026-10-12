@@ -107,7 +107,7 @@ Os testes verificam comportamentos como:
 
 ### Resultado atual
 
-**18 testes automatizados aprovados**, conforme a última execução realizada.
+**22 testes automatizados aprovados**, conforme a última execução local confirmada.
 
 Para conferir o resultado novamente, execute o comando de testes acima. Se o código for alterado, rode os testes antes de publicar as mudanças.
 
