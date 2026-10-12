@@ -19,9 +19,16 @@ def solicitar_voto(tipo, candidatos):
 
 
 def confirmar_voto(voto, tipo, candidatos):
-    """ Confirma a escolha do eleitor antes de registrar o voto. """
-    if voto == 'Nulo' or voto == '1':
+    """Confirma a escolha do eleitor antes de registrar o voto."""
+    if voto == 'Nulo':
         return True
+
+    if voto == '1':
+        if '1' in candidatos:
+            return True
+
+        print('Voto branco não permitido para este cargo.')
+        return False
 
     if voto not in candidatos:
         print('Voto inválido! Selecione um candidato válido.')
@@ -29,9 +36,7 @@ def confirmar_voto(voto, tipo, candidatos):
 
     while True:
         print(f'Você votou em: {candidatos[voto]} para {tipo}.')
-        confirmacao = input(
-            'Confirma voto? [S/N]: '
-        ).strip().upper()
+        confirmacao = input('Confirma voto? [S/N]: ').strip().upper()
 
         if confirmacao == 'S':
             return True
@@ -40,7 +45,6 @@ def confirmar_voto(voto, tipo, candidatos):
             return False
 
         print('Resposta inválida! Digite S ou N.')
-
 
 def registrar_voto(
     voto,
