@@ -1,6 +1,5 @@
-
 def solicitar_voto(tipo, candidatos):
-    """ Solicita e valida a entrada do eleitor para um cargo. """
+    """Solicita e valida a entrada do eleitor para um cargo."""
     while True:
         voto = input(
             f'Digite o número do candidato a {tipo} '
@@ -14,14 +13,29 @@ def solicitar_voto(tipo, candidatos):
         if voto in candidatos:
             return voto
 
-        print(f'Voto nulo registrado para {tipo}.')
+        print(
+            f'Número não corresponde a candidato válido '
+            f'para {tipo}.'
+        )
         return 'Nulo'
 
 
 def confirmar_voto(voto, tipo, candidatos):
     """Confirma a escolha do eleitor antes de registrar o voto."""
+
     if voto == 'Nulo':
-        return True
+        while True:
+            confirmacao = input(
+                'Confirma voto nulo? [S/N]: '
+            ).strip().upper()
+
+            if confirmacao == 'S':
+                return True
+
+            if confirmacao == 'N':
+                return False
+
+            print('Resposta inválida! Digite S ou N.')
 
     if voto == '1':
         if '1' in candidatos:
@@ -36,7 +50,9 @@ def confirmar_voto(voto, tipo, candidatos):
 
     while True:
         print(f'Você votou em: {candidatos[voto]} para {tipo}.')
-        confirmacao = input('Confirma voto? [S/N]: ').strip().upper()
+        confirmacao = input(
+            'Confirma voto? [S/N]: '
+        ).strip().upper()
 
         if confirmacao == 'S':
             return True

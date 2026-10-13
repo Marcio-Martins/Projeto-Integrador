@@ -110,10 +110,15 @@ class TestUrna(unittest.TestCase):
 
         self.assertTrue(resultado)
 
-    def test_confirmar_voto_nulo(self):
+    @patch('builtins.input', return_value='S')
+    def test_confirmar_voto_nulo(self, mock_input):
         resultado = confirmar_voto('Nulo', 'Prefeito', {})
 
         self.assertTrue(resultado)
+        mock_input.assert_called_once_with(
+            'Confirma voto nulo? [S/N]: '
+        )
+
 
     @patch(
         'builtins.input',
@@ -301,6 +306,36 @@ class TestUrna(unittest.TestCase):
             registrar_voto('1', votos, 0, 0, candidatos)
 
         self.assertEqual(votos, {})
+
+    @patch('builtins.input', side_effect=['999', 'N', '15', 'S'])
+    def test_voto_invalido_corrigido_para_candidato(self, mock_input):
+        candidatos = {'15': 'Carlos Pedro-PD'}
+        votos = {}
+
+        from urna import votar_cargo
+
+        brancos, nulos = votar_cargo(
+            'Prefeito', candidatos, votos, 0, 0
+        )
+
+        self.assertEqual(votos, {'15': 1})
+        self.assertEqual(brancos, 0)
+        self.assertEqual(nulos, 0)
+
+    @patch('builtins.input', side_effect=['999', 'S'])
+    def test_voto_invalido_confirmado_como_nulo(self, mock_input):
+        candidatos = {'15': 'Carlos Pedro-PD'}
+        votos = {}
+
+        from urna import votar_cargo
+
+        brancos, nulos = votar_cargo(
+            'Prefeito', candidatos, votos, 0, 0
+        )
+
+        self.assertEqual(votos, {})
+        self.assertEqual(brancos, 0)
+        self.assertEqual(nulos, 1)
 
 if __name__ == '__main__':
     unittest.main()
