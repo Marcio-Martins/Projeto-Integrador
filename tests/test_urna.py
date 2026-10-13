@@ -264,6 +264,43 @@ class TestUrna(unittest.TestCase):
             self.assertFalse(
                 confirmar_voto('1', 'Prefeito', candidatos)
             )
+    @patch('builtins.input', side_effect=['999', '15'])
+    def test_solicitar_voto_numero_inexistente(self, mock_input):
+        candidatos = {'15': 'Carlos Pedro-PD'}
 
-    if __name__ == '__main__':
-        unittest.main()
+        resultado = solicitar_voto('Prefeito', candidatos)
+
+        self.assertEqual(resultado, 'Nulo')
+        self.assertEqual(mock_input.call_count, 1)
+
+    @patch('builtins.input', side_effect=['15', 'N', '15', 'S'])
+    def test_voto_cancelado_e_confirmado_na_tentativa_seguinte(
+        self, mock_input
+    ):
+        candidatos = {'15': 'Carlos Pedro-PD'}
+        votos = {}
+
+        brancos, nulos = 0, 0
+
+        from urna import votar_cargo
+
+        brancos, nulos = votar_cargo(
+            'Prefeito', candidatos, votos, brancos, nulos
+        )
+
+        self.assertEqual(votos['15'], 1)
+        self.assertEqual(brancos, 0)
+        self.assertEqual(nulos, 0)
+        self.assertEqual(mock_input.call_count, 4)
+
+    def test_registrar_voto_branco_sem_permissao(self):
+        candidatos = {'15': 'Carlos Pedro-PD'}
+        votos = {}
+
+        with self.assertRaises(ValueError):
+            registrar_voto('1', votos, 0, 0, candidatos)
+
+        self.assertEqual(votos, {})
+
+if __name__ == '__main__':
+    unittest.main()
