@@ -1,37 +1,36 @@
+# Simulação de Urna Eletrônica em Python
 
-# 🗳️ Simulação de Urna Eletrônica em Python
-
-Projeto desenvolvido em Python para praticar lógica de programação, organização de funções, validação de entradas e testes automatizados.
+Projeto acadêmico desenvolvido em Python para praticar lógica de programação, organização de funções, validação de entradas e testes automatizados.
 
 A aplicação simula uma votação para os cargos de **Prefeito e Vereador**, com registro de votos válidos, brancos e nulos, confirmação das escolhas e apuração dos resultados.
 
-> **Aviso:** este é um projeto acadêmico para fins educacionais. Não é um sistema eleitoral oficial e não deve ser utilizado em eleições reais.
+> **Aviso:** esta é uma simulação educacional. Não é um sistema eleitoral oficial e não deve ser utilizada em eleições reais.
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
-- Iniciar a votação por meio do controle do mesário
-- Encerrar o sistema antes do início da votação
+- Iniciar a votação pelo controle do mesário
 - Liberar o próximo eleitor
-- Encerrar a votação e apresentar a apuração
+- Encerrar o sistema ou a votação
 - Registrar votos para Prefeito e Vereador
-- Confirmar ou refazer uma escolha
-- Registrar votos brancos e nulos
+- Confirmar ou cancelar uma escolha
+- Permitir corrigir a escolha após recusar um voto nulo
+- Registrar votos válidos, brancos e nulos
 - Contabilizar votos por candidato
 - Validar entradas e tratar opções inválidas
+- Apresentar os resultados ao final da votação
 - Executar testes automatizados com `unittest`
 
-## 🛠️ Tecnologias e conceitos
+## Tecnologias e conceitos
 
-- **Python 3**
+- Python 3
 - Programação procedural
 - Funções e parâmetros
 - Estruturas condicionais e de repetição
-- Dicionários para contabilização de votos
-- Validação de entradas do usuário
+- Dicionários
+- Validação de entradas
 - Testes automatizados com `unittest`
-- Simulação de um fluxo de controle de votação
 
-## 📁 Estrutura do projeto
+## Estrutura do projeto
 
 ```text
 Projeto-Integrador/
@@ -41,12 +40,12 @@ Projeto-Integrador/
 └── README.md
 ```
 
-## ⚙️ Pré-requisitos
+## Pré-requisitos
 
 - Python 3 instalado
 - Terminal ou editor de código, como o Visual Studio Code
 
-Para verificar se o Python está instalado, execute:
+Verifique a instalação:
 
 ```bash
 python --version
@@ -58,98 +57,81 @@ No Windows, também é possível utilizar:
 py --version
 ```
 
-O projeto utiliza módulos da biblioteca padrão do Python, incluindo `unittest`, sem necessidade de instalar dependências externas para executar os testes apresentados.
+O projeto utiliza módulos da biblioteca padrão do Python e não exige dependências externas para executar os testes apresentados.
 
-## ▶️ Como executar
+## Como executar
 
-1. Abra o terminal na pasta do projeto.
-2. Execute o comando:
+No terminal, dentro da pasta do projeto, execute:
 
 ```bash
 python urna.py
 ```
 
-No início, o mesário poderá escolher:
+No controle do mesário, escolha uma opção para iniciar a votação ou encerrar o sistema. Durante a votação, o mesário pode liberar o próximo eleitor ou encerrar a votação para exibir a apuração.
 
-```text
-1 - Iniciar votação
-2 - Encerrar sistema
-```
+## Testes automatizados
 
-Depois de cada eleitor votar para Prefeito e Vereador, o mesário poderá escolher:
-
-```text
-1 - Liberar próximo eleitor
-2 - Encerrar votação
-```
-
-Ao encerrar a votação, o programa apresenta a quantidade de votos por candidato, além dos votos brancos e nulos.
-
-## 🧪 Testes automatizados
-
-Para executar os testes, utilize:
+Execute os testes com:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-Os testes verificam comportamentos como:
+Os testes cobrem funcionalidades como:
 
-- Solicitação de voto válido
-- Tratamento de entrada não numérica
-- Registro e contagem de votos
-- Registro de votos brancos e nulos
+- Solicitação e registro de votos
+- Validação de entradas
+- Contagem de votos válidos, brancos e nulos
 - Confirmação e recusa de votos
+- Correção após uma escolha inválida
 - Processo de votação de um eleitor
 - Controle do mesário
 - Início e encerramento do sistema
-- Tratamento de opções inválidas
 
-### Resultado atual
+### Status dos testes
 
-**24 testes automatizados aprovados**, conforme a última execução local confirmada.
+**29 testes automatizados aprovados** na última execução informada.
 
-Para conferir o resultado novamente, execute o comando de testes acima. Se o código for alterado, rode os testes antes de publicar as mudanças.
+Também foram realizados testes manuais no terminal para verificar a validação de números inexistentes, a confirmação de voto nulo, a correção da escolha, o registro de voto válido e o voto em branco.
 
-## 🔄 Fluxo da aplicação
+Para verificar o estado atual do projeto, execute novamente o comando de testes antes de publicar novas alterações.
+
+## Fluxo da aplicação
 
 ```text
-Sistema aguardando início
-          |
-          v
-     Controle do mesário
-       /           \
- Iniciar          Encerrar
- votação          sistema
-    |
-    v
- Eleitor vota para Prefeito
-    |
-    v
- Eleitor vota para Vereador
-    |
-    v
- Controle do mesário
-    /           \
- Próximo       Encerrar
- eleitor       votação
-                  |
-                  v
-             Apuração final
+Controle do mesário
+        |
+        v
+Iniciar votação
+        |
+        v
+Voto para Prefeito
+        |
+        v
+Voto para Vereador
+        |
+        v
+Registrar votos
+        |
+        v
+Próximo eleitor ou encerrar
+        |
+        v
+Apuração final
 ```
 
-## 🎯 Objetivo de aprendizagem
+## Objetivo de aprendizagem
 
-Este projeto foi desenvolvido para aplicar conceitos fundamentais de programação em uma situação prática, com foco em:
+O projeto aplica conceitos fundamentais de programação em uma situação prática, com foco em:
 
 - Decomposição do programa em funções
 - Manipulação de dicionários
 - Validação de dados
 - Controle de fluxo
-- Separação entre lógica e interação com o usuário
+- Interação com o usuário
 - Verificação do comportamento por meio de testes automatizados
 
-## 👨‍💻 Autor
+## Autor
 
 **Márcio Eufrazio**
 
