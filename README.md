@@ -87,10 +87,13 @@ Os testes cobrem funcionalidades como:
 - Processo de votação de um eleitor
 - Controle do mesário
 - Início e encerramento do sistema
+- Configuração dos candidatos para Prefeito e Vereador
+- Verificação da independência dos dicionários de candidatos
+- Aceitação de números com espaços antes ou depois da entrada
 
 ### Status dos testes
 
-**29 testes automatizados aprovados** na última execução informada.
+**33 testes automatizados aprovados** na última execução informada.
 
 Também foram realizados testes manuais no terminal para verificar a validação de números inexistentes, a confirmação de voto nulo, a correção da escolha, o registro de voto válido e o voto em branco.
 
