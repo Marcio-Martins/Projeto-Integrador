@@ -206,8 +206,8 @@ def controle_mesario():
         print('Opção inválida! Digite 1 ou 2.')
 
 
-def main():
-    """ Configura os candidatos e executa o fluxo principal da urna. """
+def criar_candidatos():
+    """Retorna os candidatos disponíveis para cada cargo."""
     candidatos_prefeito = {
         '15': 'Carlos Pedro-PD',
         '21': 'Anderson Silva-PV',
@@ -228,6 +228,13 @@ def main():
         '35551': 'Alcilina Bento-PL',
         '1': 'Voto Branco'
     }
+
+    return candidatos_prefeito, candidatos_vereador
+
+
+def main():
+    """ Configura os candidatos e executa o fluxo principal da urna. """
+    candidatos_prefeito, candidatos_vereador = criar_candidatos()
 
     votos_prefeito = {}
     votos_vereador = {}
