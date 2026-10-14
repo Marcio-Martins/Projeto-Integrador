@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch
 
 from urna import exibir_resultado
+from urna import criar_candidatos
 from urna import (
     registrar_voto,
     confirmar_voto,
@@ -14,6 +15,40 @@ from urna import (
 
 
 class TestUrna(unittest.TestCase):
+
+    def test_criar_candidatos_prefeito(self):
+        candidatos_prefeito, _ = criar_candidatos()
+
+        self.assertEqual(
+            candidatos_prefeito["15"],
+            "Carlos Pedro-PD"
+        )
+        self.assertEqual(
+            candidatos_prefeito["21"],
+            "Anderson Silva-PV"
+        )
+        self.assertEqual(
+            candidatos_prefeito["35"],
+            "Marta Rocha-PL"
+        )
+        self.assertEqual(candidatos_prefeito["1"], "Voto Branco")
+
+    def test_criar_candidatos_vereador(self):
+        _, candidatos_vereador = criar_candidatos()
+
+        self.assertEqual(
+            candidatos_vereador["15112"],
+            "Adriana Bela-PD"
+        )
+        self.assertEqual(
+            candidatos_vereador["15121"],
+            "Carlos Alberto-PD"
+        )
+        self.assertEqual(
+            candidatos_vereador["1"],
+            "Voto Branco"
+        )
+
 
     def test_solicitar_voto_valido(self):
         candidatos = {'15': 'Carlos Pedro-PD'}
