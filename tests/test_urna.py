@@ -60,6 +60,14 @@ class TestUrna(unittest.TestCase):
         )
 
 
+    def test_solicitar_voto_aceita_espacos(self):
+        candidatos = {"15": "Carlos Pedro-PD"}
+
+        with patch("builtins.input", return_value="  15  "):
+            resultado = solicitar_voto("Prefeito", candidatos)
+
+        self.assertEqual(resultado, "15")
+
     def test_solicitar_voto_valido(self):
         candidatos = {'15': 'Carlos Pedro-PD'}
 
