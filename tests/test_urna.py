@@ -16,6 +16,16 @@ from urna import (
 
 class TestUrna(unittest.TestCase):
 
+    def test_criar_candidatos_retorna_dicionarios_independentes(self):
+        candidatos_prefeito_1, candidatos_vereador_1 = criar_candidatos()
+        candidatos_prefeito_2, candidatos_vereador_2 = criar_candidatos()
+
+        candidatos_prefeito_1["99"] = "Candidato de teste"
+        candidatos_vereador_1["99999"] = "Candidato de teste"
+
+        self.assertNotIn("99", candidatos_prefeito_2)
+        self.assertNotIn("99999", candidatos_vereador_2)
+
     def test_criar_candidatos_prefeito(self):
         candidatos_prefeito, _ = criar_candidatos()
 
